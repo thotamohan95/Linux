@@ -1,156 +1,164 @@
-Understanding the Folder Structure
-Explanation of System Directories
-Symbolic Links (Less Significant)
-Directory	Description
-/sbin -> /usr/sbin	System binaries for administrative commands (linked to /usr/sbin).
-/bin -> /usr/bin	Essential user binaries (linked to /usr/bin).
-/lib -> /usr/lib	Shared libraries and kernel modules (linked to /usr/lib).
-Important System Directories
-Directory	Description
-/boot	Stores files needed for booting the system (not relevant in containers).
-/usr	Contains most user-installed applications and libraries.
-/var	Stores logs, caches, and temporary files that change frequently.
-/etc	Stores system configuration files.
-User & Application-Specific Directories
-Directory	Description
-/home	Default location for user home directories.
-/opt	Used for installing optional third-party software.
-/srv	Holds data for services like web servers (rarely used in containers).
-/root	Home directory for the root user.
-Temporary & Volatile Directories
-Directory	Description
-/tmp	Temporary files (cleared on reboot).
-/run	Holds runtime data for processes.
-/proc	Virtual filesystem for process and system information.
-/sys	Virtual filesystem for hardware and kernel information.
-/dev	Contains device files (e.g., /dev/null, /dev/sda).
-Mount Points
-Directory	Description
-/mnt	Temporary mount point for external filesystems.
-/media	Mount point for removable media (USB, CDs).
-/data	Likely your mounted volume from Windows (C:/ubuntu-data).
+# Linux Folder Structure and User Management
 
+---
 
+## Part 1 — Understanding the Folder Structure
 
-# User Management in Linux
+### Symbolic links (common)
+- `/sbin -> /usr/sbin` — System binaries for administrative commands (linked to `/usr/sbin`).
+- `/bin -> /usr/bin` — Essential user binaries (linked to `/usr/bin`).
+- `/lib -> /usr/lib` — Shared libraries and kernel modules (linked to `/usr/lib`).
 
-## Introduction to User Management in Linux
-Linux is a multi-user operating system, meaning multiple users can operate on a system simultaneously. Proper user management ensures security, controlled access, and system integrity. 
+### Important system directories
+| Directory | Description |
+|---|---|
+| `/boot` | Files needed for booting the system (not relevant in containers). |
+| `/usr` | Contains most user-installed applications and libraries. |
+| `/var` | Stores logs, caches, and frequently changing temporary files. |
+| `/etc` | System configuration files. |
 
-Key files involved in user management:
-- `/etc/passwd` – Stores user account details.
-- `/etc/shadow` – Stores encrypted user passwords.
-- `/etc/group` – Stores group information.
-- `/etc/gshadow` – Stores secure group details.
+### User & application-specific directories
+| Directory | Description |
+|---|---|
+| `/home` | Default location for user home directories. |
+| `/opt` | Optional third-party software. |
+| `/srv` | Data for services like web servers (rarely used in containers). |
+| `/root` | Home directory for the root user. |
 
-## Creating Users in Linux
-To create a new user in Linux, use:
+### Temporary & virtual filesystems
+| Directory | Description |
+|---|---|
+| `/tmp` | Temporary files (may be cleared on reboot). |
+| `/run` | Runtime data for processes. |
+| `/proc` | Virtual filesystem for process and system information. |
+| `/sys` | Virtual filesystem for hardware and kernel information. |
+| `/dev` | Device files (e.g., `/dev/null`, `/dev/sda`). |
 
-### `useradd` Command (For most Linux distributions)
-```bash
-useradd username
-```
-This creates a user without a home directory.
+### Mount points
+| Directory | Description |
+|---|---|
+| `/mnt` | Temporary mount point for external filesystems. |
+| `/media` | Mount point for removable media (USB, CDs). |
+| `/data` | Possibly a mounted volume from Windows (e.g., `C:/ubuntu-data`). |
 
-To create a user with a home directory:
-```bash
-useradd -m username
-```
+---
 
-To specify a shell:
-```bash
-useradd -s /bin/bash username
-```
+## Part 2 — User Management in Linux
 
-### `adduser` Command (For Debian-based systems)
-```bash
-adduser username
-```
-This is an interactive command that asks for a password and additional details.
+Linux is a multi-user OS. Proper user management ensures security, controlled access, and system integrity.
 
-## Managing User Passwords
-To set or change a user’s password:
-```bash
-passwd username
-```
+### Key files involved in user management
+- `/etc/passwd` — User account details (one line per account).
+- `/etc/shadow` — Encrypted user passwords and password metadata.
+- `/etc/group` — Group information.
+- `/etc/gshadow` — Secure group administration data.
 
-### Enforcing Password Policies
-- **Password expiration**: Set password expiry days
+### Creating users
+
+- Using `useradd` (available on most distributions)
+  - Create user without a home directory:
+    ```bash
+    useradd username
+    ```
+  - Create user with a home directory:
+    ```bash
+    useradd -m username
+    ```
+  - Create user with a specific shell:
+    ```bash
+    useradd -s /bin/bash username
+    ```
+
+- Using `adduser` (Debian/Ubuntu friendly; interactive)
   ```bash
-  chage -M 90 username
-  ```
-- **Lock a user account**
-  ```bash
-  passwd -l username
-  ```
-- **Unlock a user account**
-  ```bash
-  passwd -u username
+  adduser username
   ```
 
-## Modifying Users
-Modify an existing user with `usermod`:
-- Change the username:
+### Managing passwords
+
+- Set or change password:
+  ```bash
+  passwd username
+  ```
+
+- Enforce password policies
+  - Set maximum password age (expire after N days):
+    ```bash
+    chage -M 90 username
+    ```
+  - Lock an account:
+    ```bash
+    passwd -l username
+    ```
+  - Unlock an account:
+    ```bash
+    passwd -u username
+    ```
+
+### Modifying users (`usermod`)
+- Change username:
   ```bash
   usermod -l new_username old_username
   ```
-- Change the home directory:
+- Change home directory and move contents:
   ```bash
   usermod -d /new/home/directory -m username
   ```
-- Change the default shell:
+- Change default shell:
   ```bash
   usermod -s /bin/zsh username
   ```
 
-## Deleting Users
-To remove a user but keep their home directory:
-```bash
-userdel username
-```
-To remove a user and their home directory:
-```bash
-userdel -r username
-```
+### Deleting users (`userdel`)
+- Remove user but keep home directory:
+  ```bash
+  userdel username
+  ```
+- Remove user and their home directory:
+  ```bash
+  userdel -r username
+  ```
 
-## Working with Groups
-### Creating Groups
-```bash
-groupadd groupname
-```
+### Working with groups
+- Create a group:
+  ```bash
+  groupadd groupname
+  ```
+- Add a user to a supplementary group (append):
+  ```bash
+  usermod -aG groupname username
+  ```
+- View a user's groups:
+  ```bash
+  groups username
+  ```
+- Change a user's primary group:
+  ```bash
+  usermod -g new_primary_group username
+  ```
 
-### Adding Users to Groups
-```bash
-usermod -aG groupname username
-```
+### Sudo access and privilege escalation
+- Add user to sudo group (Debian/Ubuntu):
+  ```bash
+  usermod -aG sudo username
+  ```
+- Add user to wheel group (RHEL/Fedora/CentOS):
+  ```bash
+  usermod -aG wheel username
+  ```
 
-### Viewing Group Memberships
-```bash
-groups username
-```
+- Grant specific commands without a password:
+  1. Edit the sudoers file safely:
+     ```bash
+     visudo
+     ```
+  2. Add a line such as:
+     ```
+     username ALL=(ALL) NOPASSWD: /path/to/command
+     ```
 
-### Changing Primary Group
-```bash
-usermod -g new_primary_group username
-```
+---
 
-## Sudo Access and Privilege Escalation
-### Adding a User to Sudo Group
-On Debian-based systems:
-```bash
-usermod -aG sudo username
-```
-On RHEL-based systems:
-```bash
-usermod -aG wheel username
-```
-
-### Granting Specific Commands with Sudo
-Edit the sudoers file:
-```bash
-visudo
-```
-Then add:
-```bash
-username ALL=(ALL) NOPASSWD: /path/to/command
-```
+If you'd like, I can:
+- Commit this formatted file back to the repository (I will need confirmation of the target repo and branch), or
+- Further adjust formatting (for example, add examples for /etc/passwd fields, or include best-practices for locking inactive accounts).
