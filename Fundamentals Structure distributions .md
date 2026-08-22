@@ -13,7 +13,7 @@
 - **Frequent and Transparent Updates**: Regular security patches ensure system stability without requiring frequent reboots.
 - **High Stability**: Linux systems can run for years without crashes, ensuring better uptime and reliability.
 
-==========================================================================================================================
+==========================================================================
 ### Core components of a Linux Machine
 +----------------------------------------------------+
 | User Applications (Vim, Docker, Apache, etc.)     |
@@ -58,7 +58,7 @@
 🔹 End-user programs like web browsers, text editors, DevOps tools, etc.
 🔹 Applications interact with the OS using system calls via the shell or GUI.
 
-========================================================================================================================
+===================================================================
 ## Linux Distributions
 Linux distributions (distros) are different versions of Linux that package the Linux kernel with various software, system utilities, and package managers. Each distro is designed for different use cases, such as personal computing, server management, or security.
 
