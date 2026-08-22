@@ -1,2 +1,0 @@
-# Linux
-DevOps with Linux
