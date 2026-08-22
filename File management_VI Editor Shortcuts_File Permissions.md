@@ -1,163 +1,219 @@
 # File management in Linux
 
-### File and Directory Management
-1. **`ls`** – Lists files and directories in the current location.
-2. **`cd /path/to/directory`** – Changes the working directory.
-3. **`pwd`** – Prints the current working directory.
-4. **`mkdir new_folder`** – Creates a new directory.
-5. **`rmdir empty_folder`** – Removes an empty directory.
-6. **`rm file.txt`** – Deletes a file.
-7. **`rm -r folder`** – Deletes a folder and its contents.
-8. **`cp file1.txt file2.txt`** – Copies a file.
-9. **`cp -r dir1 dir2`** – Copies a directory recursively.
-10. **`mv old_name new_name`** – Moves or renames a file or directory.
+## Table of contents
+- File & directory management
+- Viewing and editing files
+- vi (Vim) editor — quick reference for beginners
+- File permissions and ownership
+- Special permissions and umask
+- Quick reference / examples
 
-### File Viewing and Editing
-11. **`cat file.txt`** – Displays file content.
-12. **`tac file.txt`** – Displays file content in reverse order.
-13. **`less file.txt`** – Opens a file for viewing with scrolling support.
-14. **`more file.txt`** – Similar to `less`, but only moves forward.
-15. **`head -n 10 file.txt`** – Displays the first 10 lines of a file.
-16. **`tail -n 10 file.txt`** – Displays the last 10 lines of a file.
-17. **`nano file.txt`** – Opens a simple text editor.
-18. **`vi file.txt`** – Opens a powerful text editor.
-19. **`echo 'Hello' > file.txt`** – Writes text to a file, overwriting existing content.
-20. **`echo 'Hello' >> file.txt`** – Appends text to a file without overwriting.
+---
 
-### VI Editor Shortcuts
-Modes in VI Editor
-Normal Mode (default) – Used for navigation and command execution.
-Insert Mode – Used for text editing (press i to enter, Esc to exit).
-Command Mode – Used for saving, quitting, and searching (press : in Normal mode).
-Basic Navigation
-h – Move left
-l – Move right
-j – Move down
-k – Move up
-0 – Move to the beginning of the line
-^ – Move to the first non-blank character of the line
-$ – Move to the end of the line
-w – Move to the next word
-b – Move to the previous word
-gg – Move to the start of the file
-G – Move to the end of the file
-:n – Move to line number n
-Insert Mode Shortcuts
-i – Insert before cursor
-I – Insert at the beginning of the line
-a – Append after cursor
-A – Append at the end of the line
-o – Open a new line below
-O – Open a new line above
-Esc – Exit insert mode
-Editing Text
-x – Delete a character
-X – Delete a character before cursor
-dw – Delete a word
-dd – Delete a line
-d$ – Delete from cursor to end of line
-d0 – Delete from cursor to beginning of line
-D – Delete from cursor to end of line
-u – Undo last action
-Ctrl + r – Redo an undone change
-yy – Copy (yank) a line
-yw – Copy (yank) a word
-p – Paste after the cursor
-P – Paste before the cursor
-Search and Replace
-/pattern – Search forward for a pattern
-?pattern – Search backward for a pattern
-n – Repeat last search forward
-N – Repeat last search backward
-:%s/old/new/g – Replace all occurrences of "old" with "new"
-:s/old/new/g – Replace all occurrences in the current line
-Working with Multiple Files
-:e filename – Open a new file
-:w – Save file
-:wq – Save and exit
-:q! – Quit without saving
-:split filename – Split screen horizontally and open another file
-:vsplit filename – Split screen vertically
-Ctrl + w + w – Switch between split screens
+## File & directory management (basic commands)
+- `ls` — list files and directories in the current directory.
+- `cd /path/to/directory` — change working directory.
+- `pwd` — print current working directory.
+- `mkdir new_folder` — create a new directory.
+- `rmdir empty_folder` — remove an empty directory.
+- `rm file.txt` — delete a file (use carefully).
+- `rm -r folder` — delete a directory and its contents recursively (DANGEROUS).
+- `cp file1.txt file2.txt` — copy a file.
+- `cp -r dir1 dir2` — copy a directory recursively.
+- `mv old_name new_name` — move or rename a file or directory.
 
+Tip for beginners: always double-check `rm -r` and consider `rm -i` to prompt before each removal.
 
-File Permissions Management in Linux
-Introduction to File Permissions
-Linux file permissions determine who can read, write, or execute files and directories. Each file and directory has three levels of permission:
+---
 
-Owner (User): The creator of the file.
-Group: Users belonging to the assigned group.
-Others: All other users on the system.
-Permissions are represented as:
+## Viewing and editing files
+- `cat file.txt` — display the whole file.
+- `tac file.txt` — display file lines in reverse order.
+- `less file.txt` — view a file with paging and navigation.
+- `more file.txt` — simpler pager (forward only).
+- `head -n 10 file.txt` — show first 10 lines.
+- `tail -n 10 file.txt` — show last 10 lines.
+- `nano file.txt` — simple, beginner-friendly text editor.
+- `vi file.txt` — powerful editor (see vi/Vim section).
+- `echo 'Hello' > file.txt` — overwrite file with "Hello".
+- `echo 'Hello' >> file.txt` — append "Hello" to the file.
 
-Read (r or 4) – View file contents.
-Write (w or 2) – Modify file contents.
-Execute (x or 1) – Run scripts or programs.
-To check file permissions, use:
+---
 
-ls -l filename
-Output example:
+## vi (Vim) editor — quick reference for beginners
 
+vi has three main modes:
+- Normal mode (default) — navigation and commands.
+- Insert mode — editing text (enter with `i`, exit with `Esc`).
+- Command mode — for save/quit and complex commands (enter by pressing `:` in Normal mode).
+
+Basic navigation (Normal mode)
+- `h` — left
+- `j` — down
+- `k` — up
+- `l` — right
+- `0` — beginning of line
+- `^` — first non-blank char on line
+- `$` — end of line
+- `w` — move to start of next word
+- `b` — move to start of previous word
+- `gg` — go to start of file
+- `G` — go to end of file
+- `:n` — go to line number `n` (e.g., `:10`)
+
+Insert mode shortcuts
+- `i` — insert before cursor
+- `I` — insert at start of line
+- `a` — append after cursor
+- `A` — append at end of line
+- `o` — open a new line below and enter Insert mode
+- `O` — open a new line above and enter Insert mode
+- `Esc` — return to Normal mode
+
+Editing and clipboard
+- `x` — delete character under cursor
+- `X` — delete character before cursor
+- `dw` — delete a word
+- `dd` — delete a whole line
+- `d$` or `D` — delete to end of line
+- `d0` — delete to start of line
+- `u` — undo
+- `Ctrl + r` — redo
+- `yy` — yank (copy) a line
+- `yw` — yank (copy) a word
+- `p` — paste after cursor
+- `P` — paste before cursor
+
+Search and replace
+- `/pattern` — search forward
+- `?pattern` — search backward
+- `n` — repeat last search forward
+- `N` — repeat last search backward
+- `:%s/old/new/g` — replace all occurrences in file
+- `:s/old/new/g` — replace in current line
+
+Working with multiple files / windows
+- `:e filename` — open another file
+- `:w` — save
+- `:wq` — save and quit
+- `:q!` — quit without saving
+- `:split filename` — horizontal split
+- `:vsplit filename` — vertical split
+- `Ctrl + w + w` — switch between splits
+
+Tip: If new to vi/vim, try `nano` first. Use `vimtutor` to practice vi basics.
+
+---
+
+## File permissions and ownership (beginner-friendly)
+
+Linux permissions control read, write, execute access. There are three classes:
+- Owner (user) — the file owner.
+- Group — users in the file's group.
+- Others — everyone else.
+
+Permission types and numeric values:
+- Read (`r`) = 4
+- Write (`w`) = 2
+- Execute (`x`) = 1
+
+To see permissions:
+- `ls -l filename`
+
+Example output:
+
+```
 -rwxr--r-- 1 user group 1234 Mar 28 10:00 myfile.sh
-Changing Permissions with chmod
-Using Symbolic Mode
-Modify permissions using symbols:
+```
+Breakdown:
+- First character: `-` file, `d` directory, `l` symlink, etc.
+- Next 9 chars: `rwx r-- r--` → owner, group, others.
+- `rwx` for owner means read+write+execute (4+2+1 = 7).
+- So `-rwxr--r--` corresponds to numeric `744`.
 
-Add (+), remove (-), or set (=) permissions.
-Examples:
+Using `chmod` (change mode)
 
-chmod u+x filename  # Add execute for user
-chmod g-w filename  # Remove write for group
-chmod o=r filename  # Set read-only for others
-chmod u=rwx,g=rx,o= filename  # Set full access for user, read/execute for group, and no access for others
-Using Numeric (Octal) Mode
-Each permission has a value:
+Symbolic mode examples:
+- `chmod u+x filename` — add execute for owner.
+- `chmod g-w filename` — remove write for group.
+- `chmod o=r filename` — set others to read-only.
+- `chmod u=rwx,g=rx,o= filename` — owner=rwx, group=rx, others=none.
 
-Read (4), Write (2), Execute (1).
-Examples:
+Numeric (octal) mode examples:
+- `chmod 755 filename` — owner=rwx (7), group=rx (5), others=rx (5).
+- `chmod 644 filename` — owner=rw (6), group=r (4), others=r (4).
+- `chmod 700 filename` — owner=rwx (7), no access for group/others (0).
 
-chmod 755 filename  # User (rwx), Group (r-x), Others (r-x)
-chmod 644 filename  # User (rw-), Group (r--), Others (r--)
-chmod 700 filename  # User (rwx), No access for others
-Changing Ownership with chown
-Modify file owner and group:
+Quick conversion tip:
+- Add the bits for each class: r(4)+w(2)+x(1). Example: r+w = 4+2 = 6.
 
-chown newuser filename  # Change owner
-chown newuser:newgroup filename  # Change owner and group
-chown :newgroup filename  # Change only group
-Recursively change ownership:
+Changing ownership
+- `chown newuser filename` — change owner.
+- `chown newuser:newgroup filename` — change owner and group.
+- `chown :newgroup filename` — change only group.
+- Recursively: `chown -R newuser:newgroup directory/`
 
-chown -R newuser:newgroup directory/
-Changing Group Ownership with chgrp
-chgrp newgroup filename  # Change group
-chgrp -R newgroup directory/  # Change group recursively
-Special Permissions
-SetUID (s on user execute bit)
-Allows users to run a file with the file owner's permissions.
+Change group only
+- `chgrp newgroup filename`
+- Recursive: `chgrp -R newgroup directory/`
 
-chmod u+s filename
-Example: /usr/bin/passwd allows users to change their passwords.
+---
 
-SetGID (s on group execute bit)
-Files: Users run the file with the group's permissions. Directories: Files created inside inherit the group.
+## Special permissions
 
-chmod g+s filename  # Set on file
-chmod g+s directory/  # Set on directory
-Sticky Bit (t on others execute bit)
-Used on directories to allow only the owner to delete their files.
+- SetUID (user's execute bit shows `s`): run an executable as the file owner's permissions.
+  - `chmod u+s filename`
+  - Common example: `/usr/bin/passwd`
 
-chmod +t directory/
-Example: /tmp directory.
+- SetGID (group execute bit shows `s`):
+  - On files: run with file group permissions.
+  - On directories: new files inherit the directory's group.
+  - `chmod g+s directory/`
 
-Default Permissions: umask
-umask defines default permissions for new files and directories. Check current umask:
+- Sticky bit (others execute bit shows `t`):
+  - On directories: only the file owner (or root) can remove files.
+  - `chmod +t directory/`
+  - Example: `/tmp` typically has the sticky bit.
 
-umask
-Set a new umask:
+---
 
-umask 022  # Default: 755 for directories, 644 for files
-Conclusion
-Understanding file permissions is essential for system security and proper file management. Using chmod, chown, and chgrp, you can control access to files and directories efficiently.
+## umask — default new-file permissions
+`umask` sets bits to remove from the default permissions for new files and directories.
 
+- View current: `umask`
+- Example: `umask 022` means:
+  - New directories default to `rwxr-xr-x` (755).
+  - New files default to `rw-r--r--` (644).
 
+Note: Files are typically created without execute bit by default; directories need execute to be enterable.
 
+---
+
+## Quick reference / examples
+- Make directory, move into it:
+  ```
+  mkdir project
+  cd project
+  ```
+- Create a file and edit with nano:
+  ```
+  echo 'hello' > hello.txt
+  nano hello.txt
+  ```
+- Make a script executable and run:
+  ```
+  chmod 755 script.sh
+  ./script.sh
+  ```
+- Recursively set ownership to user `alice` and group `developers`:
+  ```
+  sudo chown -R alice:developers /path/to/dir
+  ```
+
+---
+
+## Final tips for beginners
+- Use `man <command>` (e.g., `man ls`) to read the manual for any command.
+- Use `--help` (e.g., `ls --help`) for quick options.
+- Be careful with `rm -r` and ownership changes — consider a backup or test in a safe directory.
+- Try `vimtutor` if you want to learn `vi`/`vim` step-by-step.
