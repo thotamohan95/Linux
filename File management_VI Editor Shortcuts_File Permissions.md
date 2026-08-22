@@ -24,4 +24,140 @@
 19. **`echo 'Hello' > file.txt`** – Writes text to a file, overwriting existing content.
 20. **`echo 'Hello' >> file.txt`** – Appends text to a file without overwriting.
 
+### VI Editor Shortcuts
+Modes in VI Editor
+Normal Mode (default) – Used for navigation and command execution.
+Insert Mode – Used for text editing (press i to enter, Esc to exit).
+Command Mode – Used for saving, quitting, and searching (press : in Normal mode).
+Basic Navigation
+h – Move left
+l – Move right
+j – Move down
+k – Move up
+0 – Move to the beginning of the line
+^ – Move to the first non-blank character of the line
+$ – Move to the end of the line
+w – Move to the next word
+b – Move to the previous word
+gg – Move to the start of the file
+G – Move to the end of the file
+:n – Move to line number n
+Insert Mode Shortcuts
+i – Insert before cursor
+I – Insert at the beginning of the line
+a – Append after cursor
+A – Append at the end of the line
+o – Open a new line below
+O – Open a new line above
+Esc – Exit insert mode
+Editing Text
+x – Delete a character
+X – Delete a character before cursor
+dw – Delete a word
+dd – Delete a line
+d$ – Delete from cursor to end of line
+d0 – Delete from cursor to beginning of line
+D – Delete from cursor to end of line
+u – Undo last action
+Ctrl + r – Redo an undone change
+yy – Copy (yank) a line
+yw – Copy (yank) a word
+p – Paste after the cursor
+P – Paste before the cursor
+Search and Replace
+/pattern – Search forward for a pattern
+?pattern – Search backward for a pattern
+n – Repeat last search forward
+N – Repeat last search backward
+:%s/old/new/g – Replace all occurrences of "old" with "new"
+:s/old/new/g – Replace all occurrences in the current line
+Working with Multiple Files
+:e filename – Open a new file
+:w – Save file
+:wq – Save and exit
+:q! – Quit without saving
+:split filename – Split screen horizontally and open another file
+:vsplit filename – Split screen vertically
+Ctrl + w + w – Switch between split screens
+
+
+File Permissions Management in Linux
+Introduction to File Permissions
+Linux file permissions determine who can read, write, or execute files and directories. Each file and directory has three levels of permission:
+
+Owner (User): The creator of the file.
+Group: Users belonging to the assigned group.
+Others: All other users on the system.
+Permissions are represented as:
+
+Read (r or 4) – View file contents.
+Write (w or 2) – Modify file contents.
+Execute (x or 1) – Run scripts or programs.
+To check file permissions, use:
+
+ls -l filename
+Output example:
+
+-rwxr--r-- 1 user group 1234 Mar 28 10:00 myfile.sh
+Changing Permissions with chmod
+Using Symbolic Mode
+Modify permissions using symbols:
+
+Add (+), remove (-), or set (=) permissions.
+Examples:
+
+chmod u+x filename  # Add execute for user
+chmod g-w filename  # Remove write for group
+chmod o=r filename  # Set read-only for others
+chmod u=rwx,g=rx,o= filename  # Set full access for user, read/execute for group, and no access for others
+Using Numeric (Octal) Mode
+Each permission has a value:
+
+Read (4), Write (2), Execute (1).
+Examples:
+
+chmod 755 filename  # User (rwx), Group (r-x), Others (r-x)
+chmod 644 filename  # User (rw-), Group (r--), Others (r--)
+chmod 700 filename  # User (rwx), No access for others
+Changing Ownership with chown
+Modify file owner and group:
+
+chown newuser filename  # Change owner
+chown newuser:newgroup filename  # Change owner and group
+chown :newgroup filename  # Change only group
+Recursively change ownership:
+
+chown -R newuser:newgroup directory/
+Changing Group Ownership with chgrp
+chgrp newgroup filename  # Change group
+chgrp -R newgroup directory/  # Change group recursively
+Special Permissions
+SetUID (s on user execute bit)
+Allows users to run a file with the file owner's permissions.
+
+chmod u+s filename
+Example: /usr/bin/passwd allows users to change their passwords.
+
+SetGID (s on group execute bit)
+Files: Users run the file with the group's permissions. Directories: Files created inside inherit the group.
+
+chmod g+s filename  # Set on file
+chmod g+s directory/  # Set on directory
+Sticky Bit (t on others execute bit)
+Used on directories to allow only the owner to delete their files.
+
+chmod +t directory/
+Example: /tmp directory.
+
+Default Permissions: umask
+umask defines default permissions for new files and directories. Check current umask:
+
+umask
+Set a new umask:
+
+umask 022  # Default: 755 for directories, 644 for files
+Conclusion
+Understanding file permissions is essential for system security and proper file management. Using chmod, chown, and chgrp, you can control access to files and directories efficiently.
+
+
 
